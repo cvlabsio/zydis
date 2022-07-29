@@ -1275,6 +1275,30 @@ typedef struct ZydisDecodedInstruction_
     } raw;
 } ZydisDecodedInstruction;
 
+/**
+ * Structure combining all information the decoder can report about an instruction.
+ *
+ * This structure is filled by calling `ZydisDecoderDecodeFull`.
+ */
+typedef struct ZydisFullDecodedInstruction_ {
+    /**
+     * Basic information about the instruction.
+     */
+    ZydisDecodedInstruction info;
+    /**
+     * List of decoded operands.
+     *
+     * The amount of actual operands can be determined by inspecting the corresponding fields
+     * in the `info` member of this struct. Inspect `operand_count_visible` if you care about
+     * visible operands (those that are printed by the formatter) or `operand_count` if you're
+     * also interested in implicit operands (for example the registers implicitly accessed by
+     * `pushad`).
+     *
+     * Unused entries in the operand array are zeroed.
+     */
+    ZydisDecodedOperand operands[ZYDIS_MAX_OPERAND_COUNT];
+} ZydisFullDecodedInstruction;
+
 /* ---------------------------------------------------------------------------------------------- */
 /* Decoder context                                                                                */
 /* ---------------------------------------------------------------------------------------------- */
